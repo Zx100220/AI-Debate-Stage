@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1d3a3a2c-205d-48e8-afae-8809364b2a19" name="更改" comment="v1.0">
+    <list default="true" id="1d3a3a2c-205d-48e8-afae-8809364b2a19" name="更改" comment="v1.1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/ai_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/ai_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/debate_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/debate_engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/main_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/main_window.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +52,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python._compat.executor": "Run",
     "Python.ai_client.executor": "Run",
+    "Python.debate_engine.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -81,7 +85,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772001111071</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="v1.1">
+      <option name="closed" value="true" />
+      <created>1772002555465</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1772002555465</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -102,6 +114,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.0" />
+    <MESSAGE value="v1.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.1" />
   </component>
 </project>

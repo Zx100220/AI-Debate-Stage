@@ -2,7 +2,7 @@ import json
 import os
 from PyQt5.QtWidgets import QMainWindow, QWidget, QLabel, QTextEdit, QPushButton, QGraphicsOpacityEffect
 from PyQt5.QtCore import Qt, QPropertyAnimation, QRect, QTimer
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QTextCharFormat, QColor, QTextCursor
 
 from core.video_player import VideoPlayer
 from core.debate_engine import DebateEngine
@@ -182,13 +182,16 @@ class MainWindow(QMainWindow):
         self._sync_ui_from_config(cfg)
 
         self.bottom_layer.clear()
-        self.append_subtitle("== 辩论即将开始 ==")
 
         if self.engine and self.engine.isRunning():
             self.engine.stop()
 
         self.engine = DebateEngine(cfg)
-        self.engine.new_message_sig.connect(self._on_new_message)
+
+        # 绑定新的流式事件信号
+        self.engine.message_start_sig.connect(self._on_message_start)
+        self.engine.message_chunk_sig.connect(self._on_message_chunk)
+        self.engine.message_end_sig.connect(self._on_message_end)
         self.engine.error_sig.connect(self._on_error)
         self.engine.finished_sig.connect(self._on_finished)
         self.engine.start()
@@ -200,22 +203,48 @@ class MainWindow(QMainWindow):
     def stop_debate(self):
         if self.engine and self.engine.isRunning():
             self.engine.stop()
-            self.append_subtitle("[系统] 已发送停止指令，本轮后终止...")
+            self._on_message_start("系统", "#FFEB3B")
+            self._on_message_chunk("\n[收到停止指令，即将终止...]")
+            self._on_message_end()
 
-    def _on_new_message(self, name, text):
-        # 颜色区分发言方
-        cfg = self.settings_panel.get_config()
-        color = "#FFFFFF"  # 系统白
-        if name == cfg.get("ai1", {}).get("name"):
-            color = "#80D8FF"  # 正方浅蓝色
-        elif name == cfg.get("ai2", {}).get("name"):
-            color = "#FF8A80"  # 反方浅红色
+    def _on_message_start(self, name, color):
+        """流式消息开始：输出角色的名称和排版样式"""
+        cursor = self.bottom_layer.textCursor()
+        cursor.movePosition(QTextCursor.End)
+        self.bottom_layer.setTextCursor(cursor)
 
-        self.append_subtitle(f"<b>【{name}】</b>: {text}", color=color)
+        # 配置格式化对象
+        fmt = QTextCharFormat()
+        fmt.setForeground(QColor(color))
+        fmt.setFontWeight(QFont.Bold)
+
+        # 插入名字标签
+        cursor.insertText(f"\n【{name}】: ", fmt)
+
+        # 恢复默认正文格式(但不恢复颜色，全段保持同一着色)
+        fmt.setFontWeight(QFont.Normal)
+        self.bottom_layer.setCurrentCharFormat(fmt)
+
+    def _on_message_chunk(self, chunk):
+        """流式输出：依次向文本框插入碎步字符，实现打字机效果"""
+        cursor = self.bottom_layer.textCursor()
+        cursor.movePosition(QTextCursor.End)
+        cursor.insertText(chunk)
+        # 使得滚动条实时滚动到底部
+        scrollbar = self.bottom_layer.verticalScrollBar()
+        scrollbar.setValue(scrollbar.maximum())
+
+    def _on_message_end(self):
+        """流式消息结束（若有特定结束需求可在此添加）"""
+        pass
 
     def _on_error(self, err_text):
-        self.append_subtitle(f"⚠️ 错误：{err_text}", color="#FFEB3B")
+        self._on_message_start("错误", "#FFEB3B")
+        self._on_message_chunk(f"⚠️ {err_text}")
+        self._on_message_end()
 
     def _on_finished(self):
-        self.append_subtitle("== 辩论已结束 ==")
+        self._on_message_start("系统", "#FFFFFF")
+        self._on_message_chunk("\n\n== 本场辩论已结束 ==\n")
+        self._on_message_end()
         self.settings_panel.btn_start.setEnabled(True)
