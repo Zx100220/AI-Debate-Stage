@@ -4,16 +4,16 @@
     "video_path": "",
     "ai1": {
         "name": "DeepSeek",
-        "api_url": "https://ark.volces.com/api/v3/chat/completions",
+        "api_url": "",
         "model_name": "doubao-1-5-pro-32k-250115",
         "api_key": "8db49b0a-60a2-4409-ba5d-4707eba1eb22",
         "style": ""
     },
     "ai2": {
-        "name": "反方",
+        "name": "豆包",
         "api_url": "",
-        "model_name": "",
-        "api_key": "",
+        "model_name": "doubao-1-5-pro-32k-250115",
+        "api_key": "8db49b0a-60a2-4409-ba5d-4707eba1eb22",
         "style": ""
     }
 }
