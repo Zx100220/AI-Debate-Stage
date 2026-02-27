@@ -27,6 +27,9 @@ class MainWindow(QMainWindow):
     def _init_ui(self):
         # 0. 底层视频播放器
         self.video_player = VideoPlayer(self)
+        self.video_player.error_sig.connect(
+            lambda msg: self.append_subtitle(f"[警告] {msg}", color="yellow")
+        )
 
         # ----------- 绝对定位的浮层 -----------
         # 1. 顶部区域：辩题和头像
