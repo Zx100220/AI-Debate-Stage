@@ -20,6 +20,19 @@ class SettingsPanel(QWidget):
         content_widget = QWidget()
         self.layout = QVBoxLayout(content_widget)
 
+        # 关闭按钮（顶部右对齐）
+        close_layout = QHBoxLayout()
+        close_layout.addStretch()
+        self.btn_close = QPushButton("✕")
+        self.btn_close.setCursor(Qt.PointingHandCursor)
+        self.btn_close.setFixedSize(32, 32)
+        self.btn_close.setStyleSheet(
+            "QPushButton { background-color: #555; color: white; border-radius: 16px; font-size: 16px; font-weight: bold; }"
+            "QPushButton:hover { background-color: #D83B01; }"
+        )
+        close_layout.addWidget(self.btn_close)
+        self.layout.addLayout(close_layout)
+
         # 1. 基础配置
         self.layout.addWidget(QLabel("<h2>🔨 通用配置</h2>"))
         self.topic_input = self._add_row("当期辩题：")
@@ -74,7 +87,7 @@ class SettingsPanel(QWidget):
             btn_layout.addWidget(btn)
 
         self.btn_start.setStyleSheet(self.btn_start.styleSheet() + "background-color: #0078D7;")
-        self.btn_stop.setStyleSheet(self.btn_stop.styleSheet() + "background-color: #D83B01; margin-bottom: 20px;")
+        self.btn_stop.setStyleSheet(self.btn_stop.styleSheet() + "background-color: #D83B01;")
 
         main_layout.addLayout(btn_layout)
 
