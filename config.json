@@ -7,13 +7,15 @@
         "api_url": "",
         "model_name": "doubao-seed-2-0-pro-260215",
         "api_key": "8db49b0a-60a2-4409-ba5d-4707eba1eb22",
-        "style": ""
+        "style": "",
+        "viewpoint": ""
     },
     "ai2": {
         "name": "豆包",
         "api_url": "",
         "model_name": "doubao-seed-2-0-pro-260215",
         "api_key": "8db49b0a-60a2-4409-ba5d-4707eba1eb22",
-        "style": ""
+        "style": "",
+        "viewpoint": ""
     }
 }
