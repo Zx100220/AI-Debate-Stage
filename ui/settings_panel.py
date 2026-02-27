@@ -37,16 +37,18 @@ class SettingsPanel(QWidget):
         self.layout.addLayout(video_layout)
 
         # 2. AI 1 设置
-        self.layout.addWidget(QLabel("<h2>🤖 AI 1 (左侧) 配置</h2>"))
+        self.layout.addWidget(QLabel("<h2>🤖 AI 1 (左侧/正方) 配置</h2>"))
         self.ai1_name = self._add_row("名称：", "正方")
+        self.ai1_viewpoint = self._add_row("正方观点：")
         self.ai1_url = self._add_row("API URL：")
         self.ai1_model = self._add_row("模型名称：")
         self.ai1_key = self._add_row("API 密钥：", is_password=True)
         self.ai1_style = self._add_row("发言风格 (Prompt)：")
 
         # 3. AI 2 设置
-        self.layout.addWidget(QLabel("<h2>🤖 AI 2 (右侧) 配置</h2>"))
+        self.layout.addWidget(QLabel("<h2>🤖 AI 2 (右侧/反方) 配置</h2>"))
         self.ai2_name = self._add_row("名称：", "反方")
+        self.ai2_viewpoint = self._add_row("反方观点：")
         self.ai2_url = self._add_row("API URL：")
         self.ai2_model = self._add_row("模型名称：")
         self.ai2_key = self._add_row("API 密钥：", is_password=True)
@@ -97,6 +99,7 @@ class SettingsPanel(QWidget):
             "video_path": self.video_input.text(),
             "ai1": {
                 "name": self.ai1_name.text(),
+                "viewpoint": self.ai1_viewpoint.text(),
                 "api_url": self.ai1_url.text(),
                 "model_name": self.ai1_model.text(),
                 "api_key": self.ai1_key.text(),
@@ -104,6 +107,7 @@ class SettingsPanel(QWidget):
             },
             "ai2": {
                 "name": self.ai2_name.text(),
+                "viewpoint": self.ai2_viewpoint.text(),
                 "api_url": self.ai2_url.text(),
                 "model_name": self.ai2_model.text(),
                 "api_key": self.ai2_key.text(),
@@ -118,6 +122,7 @@ class SettingsPanel(QWidget):
 
         ai1 = config_data.get("ai1", {})
         self.ai1_name.setText(ai1.get("name", ""))
+        self.ai1_viewpoint.setText(ai1.get("viewpoint", ""))
         self.ai1_url.setText(ai1.get("api_url", ""))
         self.ai1_model.setText(ai1.get("model_name", ""))
         self.ai1_key.setText(ai1.get("api_key", ""))
@@ -125,6 +130,7 @@ class SettingsPanel(QWidget):
 
         ai2 = config_data.get("ai2", {})
         self.ai2_name.setText(ai2.get("name", ""))
+        self.ai2_viewpoint.setText(ai2.get("viewpoint", ""))
         self.ai2_url.setText(ai2.get("api_url", ""))
         self.ai2_model.setText(ai2.get("model_name", ""))
         self.ai2_key.setText(ai2.get("api_key", ""))
