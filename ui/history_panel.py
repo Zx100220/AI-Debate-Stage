@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTextEdit, QPushButton
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QTextCursor, QTextCharFormat, QColor, QFont
 
@@ -13,11 +13,22 @@ class HistoryPanel(QWidget):
 
         layout = QVBoxLayout(self)
 
-        # 标题
+        # 标题栏（标题 + 关闭按钮）
+        title_layout = QHBoxLayout()
         title = QLabel("📜 对话记录")
         title.setAlignment(Qt.AlignCenter)
         title.setStyleSheet("font-size: 20px; font-weight: bold; padding: 10px; color: #FFD700;")
-        layout.addWidget(title)
+        title_layout.addWidget(title)
+
+        self.btn_close = QPushButton("✕")
+        self.btn_close.setCursor(Qt.PointingHandCursor)
+        self.btn_close.setFixedSize(32, 32)
+        self.btn_close.setStyleSheet(
+            "QPushButton { background-color: #555; color: white; border-radius: 16px; font-size: 16px; font-weight: bold; }"
+            "QPushButton:hover { background-color: #D83B01; }"
+        )
+        title_layout.addWidget(self.btn_close)
+        layout.addLayout(title_layout)
 
         # 对话内容显示区域
         self.text_area = QTextEdit()

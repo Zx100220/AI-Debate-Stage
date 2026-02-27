@@ -3,7 +3,7 @@ import os
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QPushButton,
                              QFileDialog, QVBoxLayout, QShortcut)
 from PyQt5.QtCore import Qt, QPropertyAnimation, QRect
-from PyQt5.QtGui import QFont, QPixmap, QKeySequence, QIcon
+from PyQt5.QtGui import QFont, QPixmap, QKeySequence, QIcon, QPainter, QPainterPath
 
 from core.video_player import VideoPlayer
 from core.debate_engine import DebateEngine
@@ -156,6 +156,7 @@ class MainWindow(QMainWindow):
         self.settings_panel.btn_save.clicked.connect(self._save_config)
         self.settings_panel.btn_start.clicked.connect(self.start_debate)
         self.settings_panel.btn_stop.clicked.connect(self.stop_debate)
+        self.settings_panel.btn_close.clicked.connect(self.toggle_settings_panel)
         self.settings_panel.hide()
 
         # 4. 对话记录面板（外部弹出，左侧）
@@ -163,6 +164,7 @@ class MainWindow(QMainWindow):
         self.history_panel.setWindowFlags(
             Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
         )
+        self.history_panel.btn_close.clicked.connect(self.toggle_history_panel)
         self.history_panel.hide()
 
     def _init_shortcuts(self):
@@ -204,14 +206,28 @@ class MainWindow(QMainWindow):
         """
 
     def _apply_avatar_image(self, button, filepath):
-        """将图片应用到头像按钮"""
+        """将图片应用到头像按钮（裁剪为圆形）"""
         size = button.width() if button.width() > 0 else 70
         pixmap = QPixmap(filepath).scaled(
             size, size, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
         )
+        # 裁剪为圆形
+        rounded = QPixmap(size, size)
+        rounded.fill(Qt.transparent)
+        painter = QPainter(rounded)
+        painter.setRenderHint(QPainter.Antialiasing)
+        path = QPainterPath()
+        path.addEllipse(0, 0, size, size)
+        painter.setClipPath(path)
+        # 居中绘制源图
+        x = (size - pixmap.width()) // 2
+        y = (size - pixmap.height()) // 2
+        painter.drawPixmap(x, y, pixmap)
+        painter.end()
+
         button.setText("")
-        button.setIcon(QIcon(pixmap))
-        button.setIconSize(pixmap.size())
+        button.setIcon(QIcon(rounded))
+        button.setIconSize(rounded.size())
 
     def resizeEvent(self, event):
         """窗口缩放时自适应调整各个 Overlay 部件的几何体"""
