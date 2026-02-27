@@ -52,7 +52,7 @@ class DebateEngine(QThread):
                     vp1 = f"\n你的观点立场是：{ai1_viewpoint}" if ai1_viewpoint else ""
                     prompt_1 = f"当前辩题：{topic}{vp1}\n你的角色设定是：{ai1_cfg.get('style', '')}\n请作为正方开场发表观点。"
                 else:
-                    prompt_1 = f"对方辩友刚才反驳说：\u201c{last_reply}\u201d\n请继续反驳对方。"
+                    prompt_1 = f"对方辩友刚才反驳说：“{last_reply}”\n请继续反驳对方。"
 
                 self.message_start_sig.emit(ai1_cfg.get("name", "正方"), "#80D8FF")
                 last_reply = ""
@@ -69,9 +69,9 @@ class DebateEngine(QThread):
                 # ---- AI 2 回合 ----
                 if i == 0:
                     vp2 = f"\n你的观点立场是：{ai2_viewpoint}" if ai2_viewpoint else ""
-                    prompt_2 = f"当前辩题：{topic}{vp2}\n你的角色设定是：{ai2_cfg.get('style', '')}\n对方正方开场说道：\u201c{last_reply}\u201d。\n请作为反方进行反驳。"
+                    prompt_2 = f"当前辩题：{topic}{vp2}\n你的角色设定是：{ai2_cfg.get('style', '')}\n对方正方开场说道：“{last_reply}”。\n请作为反方进行反驳。"
                 else:
-                    prompt_2 = f"对方辩友刚才反驳说：\u201c{last_reply}\u201d\n请继续反驳对方。"
+                    prompt_2 = f"对方辩友刚才反驳说：“{last_reply}”\n请继续反驳对方。"
 
                 self.message_start_sig.emit(ai2_cfg.get("name", "反方"), "#FF8A80")
                 last_reply = ""

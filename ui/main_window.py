@@ -386,7 +386,7 @@ class MainWindow(QMainWindow):
         # 检测句号（中文句号和英文句号）
         last_period = -1
         for i in range(len(self._subtitle_buffer) - 1, -1, -1):
-            if self._subtitle_buffer[i] in ("。", ".", "！", "!",  "？", "?"):
+            if self._subtitle_buffer[i] in ("。", ".", "！", "!", "？", "?"):
                 last_period = i
                 break
 
