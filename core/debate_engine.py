@@ -45,9 +45,9 @@ class DebateEngine(QThread):
 
                 # 第一轮加入角色设定，后续轮次因为有 previous_response_id，只需告知对方说了什么
                 if i == 0:
-                    prompt_1 = f"当前辩题：{topic}\n你的角色设定是：{ai1_cfg.get('style', '')}\n请作为正方开场发表观点，字数控制在50字左右，口语化。"
+                    prompt_1 = f"当前辩题：{topic}\n你的角色设定是：{ai1_cfg.get('style', '')}\n请作为正方开场发表观点。"
                 else:
-                    prompt_1 = f"对方辩友刚才反驳说：“{last_reply}”\n请用50字以内口语化的句子继续反驳对方。"
+                    prompt_1 = f"对方辩友刚才反驳说：“{last_reply}”\n请继续反驳对方。"
 
                 self.message_start_sig.emit(ai1_cfg.get("name", "正方"), "#80D8FF")
                 last_reply = ""
@@ -63,9 +63,9 @@ class DebateEngine(QThread):
 
                 # ---- AI 2 回合 ----
                 if i == 0:
-                    prompt_2 = f"当前辩题：{topic}\n你的角色设定是：{ai2_cfg.get('style', '')}\n对方正方开场说道：“{last_reply}”。\n请作为反方进行反驳，字数控制在50字左右，口语化。"
+                    prompt_2 = f"当前辩题：{topic}\n你的角色设定是：{ai2_cfg.get('style', '')}\n对方正方开场说道：“{last_reply}”。\n请作为反方进行反驳。"
                 else:
-                    prompt_2 = f"对方辩友刚才反驳说：“{last_reply}”\n请用50字以内口语化的句子继续反驳对方。"
+                    prompt_2 = f"对方辩友刚才反驳说：“{last_reply}”\n请继续反驳对方。"
 
                 self.message_start_sig.emit(ai2_cfg.get("name", "反方"), "#FF8A80")
                 last_reply = ""
